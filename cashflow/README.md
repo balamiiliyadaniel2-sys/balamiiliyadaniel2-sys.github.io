@@ -48,3 +48,16 @@ Daily cash-flow records use `date,income,expenses` with real YYYY-MM-DD dates an
 Trial-balance account scenarios default to daily steps and 30 days, starting the day after the selected base date. The user supplies a daily percentage change; projected signed balance = initial signed balance × (1 + daily rate/100)^day. Monthly steps remain available. Switching frequency resets the assumed rate to zero to prevent accidentally reusing a monthly rate as a daily rate. Each projection remains an assumption-driven account balance scenario, not a cash flow or balanced future trial balance.
 
 Validation: full-script mocked-DOM execution; 30-day CSV/table/PDF-text ingestion; invalid, duplicate, and missing dates; required 30-row minimum; daily forecast balance arithmetic; leap-day and year rollover; preserved monthly forecasting; original trial-balance totals; and 30-day signed account scenarios. Browser visual testing remains outstanding.
+
+
+## General report workflow (supersedes earlier monthly minimum)
+
+Reports covering at least 30 days are accepted even when there is only one period-total row. The user confirms coverage in the report-coverage input; the software does not infer duration from a balance-sheet date. Monthly records require one or more period rows, not six. With fewer than six period observations, forecast amounts repeat the latest reported totals with explicit scenario adjustments and no historical accuracy score. Daily records still require 30 consecutive daily entries for the daily trend workflow.
+
+Different tabular layouts can be mapped by choosing the header row, date/description column, income/debit/amount column, and expense/credit column. Line-item statements require explicit per-row Income / Expense / Ignore selection, and a reporting month. Subtotals must be ignored when their detail rows are included. Signs are retained in line amounts and account balances. Negative aggregate income/expense totals are rejected for the current nonnegative model. Mapping debit/credit reports without account codes assigns row identifiers. These are user-reviewed mappings, not automatic financial classification.
+
+Trial balances default to a whole-report scenario for every account, with account-level selection still available. The report-level rate applies equally to each signed balance, and the result is not a balanced forecast statement or an inferred cash-flow statement. Report basis distinguishes cash records from accrual or unclassified figures. Cumulative arithmetic is shown for either basis, but cash-shortfall labels require the user to select cash records.
+
+Supported containers remain Excel .xlsx/.xls, Word .docx tables, CSV, and simple text PDF tables. Scans require OCR; complex or unseparable PDF layouts require conversion. There is no promise to automatically interpret every financial report. Original uploads stay out of the published repository.
+
+Validation: full-script execution, one-period totals accepted, coverage below 30 rejected, short-history baseline calculations, no short-history MAE claim, single-period table imports, preserved daily forecasts, and all-account projection across the supplied workbook. Browser visual testing remains outstanding.
