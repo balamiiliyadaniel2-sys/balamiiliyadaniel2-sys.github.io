@@ -79,3 +79,18 @@ Validation: full-script mocked-DOM execution; actual uploaded Excel queue; exact
 Reader code is embedded as gzip/base64 assets and decompressed into local JavaScript Blob URLs at runtime. Excel, Word, PDF display API and PDF worker code no longer require external reader downloads. Modern browsers supporting DecompressionStream are required. PDF text extraction uses system fonts and disables font-face loading; specialized PDFs may still require font/CMap resources not bundled here. Scanned PDFs still need OCR.
 
 Embedded pinned readers: SheetJS 0.20.3, Mammoth 1.11.0, PDF.js 5.4.296. Original library source notices are retained inside embedded reader bytes. Validation: all four assets decompress byte-for-byte to the previously tested readers; real XLSX and DOCX files parse via bundled Blob script loading without external reader requests. Complete JavaScript syntax passes. Full browser testing is still unavailable.
+
+
+## Build 8: automatic account history forecasts
+
+Calculate converted reports, then generate automatic forecasts across multiple reporting dates. One document may contribute multiple worksheets/tables via Add another worksheet/table. Dates must be consecutive daily, monthly, quarterly or yearly snapshots with a consistent convention (month-end supported). Code-plus-description matching is the default; unique description matching is an explicit alternative. Duplicate matching identities are rejected. Accounts absent from any included reporting date are excluded and listed, not treated as zero.
+
+Two or three dates produce repeat-last baselines with no model-selection score. Four or five dates compare last balance, 3-period average, drift and linear regression using expanding-window one-period mean absolute error, starting after three observations; these are selection scores only. With six or more dates, selection uses all observations except the final period; its separate absolute holdout error is reported. Future models then use all history. This protects the holdout from model-selection leakage but one holdout is limited evidence and does not establish multi-period accuracy. Signed balances are preserved, including predictions crossing debit/credit sides. Prediction intervals, seasonal models and accounting adjustments are not implemented.
+
+Account and aggregate charts show historical solid lines and forecast dashed lines. Aggregate net debit-side and net credit-side totals sum predictions for comparable accounts only, not raw historical debit/credit turnover. Forecast totals may be unbalanced: no accounting balancing entries or cash-flow classifications are invented. A clearly labelled fictional demo is separate from user reports.
+
+Automatic_Report_Forecast.xlsx contains summary totals, account forecasts with model/error fields, comparable history, and methods/issues. It is a forecast workbook, not a formally balanced future trial balance. Currency remains a label; records must already share a currency.
+
+Validation: complete script and fictional demo; signed trend forecasting; rolling errors; latest-period holdout isolation; limited-history baselines; missing-account exclusion; ambiguous-identity rejection; irregular-date validation; month-end and fixed-date anchoring; aggregate arithmetic; generated forecast XLSX roundtrip; and bundled XLSX/DOCX reader regression checks. Browser visual testing remains outstanding.
+
+Method references: https://otexts.com/fpp3/tscv.html and https://otexts.com/fpp3/accuracy.html
