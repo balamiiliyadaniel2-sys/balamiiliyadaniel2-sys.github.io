@@ -72,3 +72,10 @@ Documents are read sequentially in the browser. Identical byte-for-byte files ar
 Included accounts aggregate by account code AND description within a reporting date only. Different dates remain separate sheets. No balancing entries are created. Review totals/differences, download Converted_Trial_Balance.xlsx, or load a selected converted report directly into the forecast scenario. Export includes reporting date, currency label, coverage, Code/Description/Debit/Credit columns and totals. The generated workbook reimports into the trial-balance parser. Forecasting across historical account snapshots is not automatically fitted; each selected trial balance still uses the explicit account-growth scenario workflow.
 
 Validation: full-script mocked-DOM execution; actual uploaded Excel queue; exact duplicate detection/exclusion; same-period combining; separate-date output; cent arithmetic; generated XLSX roundtrip preserving totals and reporting date; and confirmation/export states. Browser visual testing remains outstanding. Conversion sources are never included in published application code.
+
+
+## Build 7: bundled readers
+
+Reader code is embedded as gzip/base64 assets and decompressed into local JavaScript Blob URLs at runtime. Excel, Word, PDF display API and PDF worker code no longer require external reader downloads. Modern browsers supporting DecompressionStream are required. PDF text extraction uses system fonts and disables font-face loading; specialized PDFs may still require font/CMap resources not bundled here. Scanned PDFs still need OCR.
+
+Embedded pinned readers: SheetJS 0.20.3, Mammoth 1.11.0, PDF.js 5.4.296. Original library source notices are retained inside embedded reader bytes. Validation: all four assets decompress byte-for-byte to the previously tested readers; real XLSX and DOCX files parse via bundled Blob script loading without external reader requests. Complete JavaScript syntax passes. Full browser testing is still unavailable.
