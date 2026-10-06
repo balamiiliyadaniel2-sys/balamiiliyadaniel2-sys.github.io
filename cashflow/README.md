@@ -19,3 +19,14 @@ Reference: https://otexts.com/fpp3/tscv.html
 ## Validation
 
 Checked CSV parsing and rejection of missing, negative, and duplicate-month records; six-month forecast date rollover; cumulative cash-balance identity; -100% income scenario; and constant-series benchmark errors. Browser visual testing remains outstanding.
+
+
+## Document uploads
+
+Import CSV, Excel (.xlsx/.xls), Word (.docx), and text-based PDF documents. Readers are downloaded on demand from pinned CDN URLs: SheetJS 0.20.3, Mammoth 1.11.0, PDF.js 5.4.296. File contents are processed in the browser, not sent to a server. Internet access is needed for reader code, PDF workers and font resources.
+
+Choose a worksheet or Word table. Tables need Month / Income / Expenses headers (Revenue / Inflows and Costs / Outflows aliases are supported). Excel and Word allow reordered columns. Dates support YYYY-MM, YYYY-MM-DD, Month YYYY, and Excel date cells. Amounts support nonnegative numbers, grouped thousands and NGN/USD/GBP/EUR currency prefixes. Totals and note rows are explicitly reported as excluded; malformed monthly rows stop the import. Imported data appears in an editable CSV preview and is not forecast automatically. Previous forecasts are cleared during imports and data edits.
+
+PDF support is limited to simple selectable-text tables with Month / Income / Expenses columns in that order. Scans need OCR before importing. Word .doc must be converted to .docx. Limits: 20 MB per file, 100 pages per PDF. Six consecutive months are still required. Document layout extraction can be imperfect; review every imported figure.
+
+Validation: actual generated XLSX, DOCX, and selectable-text PDF fixtures each produced six valid monthly rows using the pinned readers. Additional checks cover reordered columns, aliases, thousands separators, missing amounts, invalid dates, total rows, malformed PDF rows and forecast arithmetic. Browser UI testing is unavailable in this environment.
