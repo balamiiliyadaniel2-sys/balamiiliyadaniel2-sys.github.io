@@ -1,0 +1,54 @@
+{
+  "name": "daniel-financial-forecaster",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local Windows financial report conversion and forecasting application",
+  "author": "Balami Daniel Iliya",
+  "license": "UNLICENSED",
+  "main": "src/main.cjs",
+  "scripts": {
+    "prepare-renderer": "node scripts/prepare.cjs",
+    "prestart": "npm run prepare-renderer",
+    "start": "electron .",
+    "test": "node --test",
+    "predist:win": "npm run prepare-renderer",
+    "dist:win": "electron-builder --win nsis portable --x64"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "com.danielbalami.financialforecaster",
+    "productName": "Daniel Financial Forecaster",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "package.json",
+      "README.md",
+      "THIRD_PARTY_NOTICES.md",
+      "licenses/**/*"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "${productName}-${version}-${arch}-${target}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
