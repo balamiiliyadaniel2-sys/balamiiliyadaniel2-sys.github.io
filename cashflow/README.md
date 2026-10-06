@@ -61,3 +61,14 @@ Trial balances default to a whole-report scenario for every account, with accoun
 Supported containers remain Excel .xlsx/.xls, Word .docx tables, CSV, and simple text PDF tables. Scans require OCR; complex or unseparable PDF layouts require conversion. There is no promise to automatically interpret every financial report. Original uploads stay out of the published repository.
 
 Validation: full-script execution, one-period totals accepted, coverage below 30 rejected, short-history baseline calculations, no short-history MAE claim, single-period table imports, preserved daily forecasts, and all-account projection across the supplied workbook. Browser visual testing remains outstanding.
+
+
+## Build 6: multi-document trial balance converter
+
+Select up to ten Excel, Word, selectable-text PDF, or CSV files (20 MB per file and 50 MB total). Pick one worksheet/table per document, its reporting date, header row, and column mappings. Separate Debit/Credit mode preserves signed figures. Signed Balance mode uses the explicitly stated positive-debit/negative-credit convention and splits each net balance onto its balance side. Optional account codes default to unique source-row identifiers when absent. Monthly income/expense summaries cannot establish missing debit/credit journal entries and are not automatically converted to a trial balance.
+
+Documents are read sequentially in the browser. Identical byte-for-byte files are excluded by default and cannot both be included for the same reporting date. Inclusion of complementary reports requires user review and confirmation; different files containing overlapping records are not automatically deduplicated. Totals labelled Total are excluded, but other subtotal rows must be removed from the source or omitted before combining. Dates and coverage are user-confirmed, not inferred as historical activity from snapshot balances.
+
+Included accounts aggregate by account code AND description within a reporting date only. Different dates remain separate sheets. No balancing entries are created. Review totals/differences, download Converted_Trial_Balance.xlsx, or load a selected converted report directly into the forecast scenario. Export includes reporting date, currency label, coverage, Code/Description/Debit/Credit columns and totals. The generated workbook reimports into the trial-balance parser. Forecasting across historical account snapshots is not automatically fitted; each selected trial balance still uses the explicit account-growth scenario workflow.
+
+Validation: full-script mocked-DOM execution; actual uploaded Excel queue; exact duplicate detection/exclusion; same-period combining; separate-date output; cent arithmetic; generated XLSX roundtrip preserving totals and reporting date; and confirmation/export states. Browser visual testing remains outstanding. Conversion sources are never included in published application code.
