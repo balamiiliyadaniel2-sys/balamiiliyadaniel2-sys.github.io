@@ -30,3 +30,12 @@ Choose a worksheet or Word table. Tables need Month / Income / Expenses headers 
 PDF support is limited to simple selectable-text tables with Month / Income / Expenses columns in that order. Scans need OCR before importing. Word .doc must be converted to .docx. Limits: 20 MB per file, 100 pages per PDF. Six consecutive months are still required. Document layout extraction can be imperfect; review every imported figure.
 
 Validation: actual generated XLSX, DOCX, and selectable-text PDF fixtures each produced six valid monthly rows using the pinned readers. Additional checks cover reordered columns, aliases, thousands separators, missing amounts, invalid dates, total rows, malformed PDF rows and forecast arithmetic. Browser UI testing is unavailable in this environment.
+
+
+## Trial balance mode
+
+Excel and Word tables with Code / Description / Debit / Credit headers are detected separately from monthly cash-flow records. Select one worksheet or table at a time. Unlabelled derived columns are ignored; signed net balances are computed from debit minus credit. Negative debit/credit entries remain signed, empty amounts are explicitly counted and treated as zero, totals rows are excluded from account sums and reconciled separately, and duplicate account codes remain individual rows. Amounts and totals are calculated in integer cents.
+
+A single-date trial balance supports account-level scenarios, not statistical trend estimation or inferred cash flows. Choose an account, base month, assumed monthly rate (-100% to 100%), and 1–24 months. Projected signed balance = base signed balance × (1 + rate/100)^month, rounded to cents. A positive rate increases the magnitude of a credit balance as well as a debit balance. This does not produce a balanced future trial balance. Currency changes labels only. Additional period history is required to estimate trends.
+
+Validation: tested parsing and reconciliation against the user-provided assumed-data workbook, including its negative entries, blank amount cells, duplicate account codes and separate duplicate worksheets. Full script execution and scenario calculations were checked with a mocked DOM. Browser visual testing remains outstanding. The workbook itself and its account data are not embedded in the published application or this repository.
